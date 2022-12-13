@@ -8,10 +8,14 @@
 
 bool live[SIZE][SIZE] = { 0 };	//每个cell的存活状态
 bool temp[SIZE][SIZE] = { 0 };
+bool running = true;
+bool pulse = false;
+int  mode = 1;	//1-连续繁衍，enter；2-代际繁衍，space
 int rx[3] = { -1,0,1 };	//用于遍历周围九宫格
 int ry[3] = { -1,0,1 };
 
 bool update(int x, int y);	//更新每个cell
+void control();
 int main() {
 	int i, j;
 	initgraph(CELL * SIZE, CELL * SIZE, 0);
@@ -23,12 +27,8 @@ int main() {
 		line(0, i * CELL, SIZE * CELL, i * CELL);
 		line(i * CELL, 0, i * CELL, SIZE * CELL);
 	}
-	live[10][10] = true;
-	live[11][10] = true;
-	live[11][9] = true;
-	live[11][11] = true;
-	live[12][10] = true;
-	while (1) {
+
+	while (running) {
 		Sleep(10);	//控制每代刷新间隔
 		for (i = 0; i < SIZE; i++) {
 			for (j = 0; j < SIZE; j++) {
@@ -40,7 +40,7 @@ int main() {
 				}
 			}
 		}
-
+		control();
 		for (i = 0; i < SIZE; i++) {
 			for (j = 0; j < SIZE; j++) {
 				temp[i][j] = update(i, j);
@@ -61,7 +61,7 @@ bool update(int x, int y)
 	for (int i = 0; i < 3; i++)
 		for (int j = 0; j < 3; j++)
 		{
-			int xt = x + rx[i], yt = y + ry[j];
+			int xt = (x + rx[i] + SIZE) % SIZE, yt = (y + ry[j] + SIZE) % SIZE;	//边界规则
 			if (live[xt][yt])  sum += 1;
 		}
 	if (live[x][y])
@@ -73,5 +73,51 @@ bool update(int x, int y)
 	{
 		if (sum == 3 || sum == 4) return true;
 		else return false;
+	}
+}
+
+void control()
+{
+	ExMessage m;
+	peekmessage(&m, -1, true);
+	if (m.vkcode == VK_ESCAPE) {
+		running = false;
+	}
+	if (m.vkcode == VK_SPACE || m.rbutton) {
+		pulse = true;
+	}
+	while (pulse) {
+		getmessage(&m, -1);
+		if (m.lbutton == 1) {
+			int x = m.x / CELL, y = m.y / CELL;
+			if (live[x][y]) {
+				live[x][y] = false;
+				clearrectangle(x * CELL + 1, y * CELL + 1, (x + 1) * CELL - 1, (y + 1) * CELL - 1);
+			}
+			else {
+				live[x][y] = true;
+				fillrectangle(x * CELL, y * CELL, (x + 1) * CELL, (y + 1) * CELL);
+			}
+		}
+		if (m.vkcode == VK_DELETE) {
+			for (int i = 0; i < SIZE; i++) {
+				for (int j = 0; j < SIZE; j++)
+				{
+					live[i][j] = false;
+					clearrectangle(i * CELL + 1, j * CELL + 1, (i + 1) * CELL - 1, (j + 1) * CELL - 1);
+				}
+			}
+		}
+		if (m.message == WM_KEYDOWN) {
+			if (m.vkcode == VK_SPACE) {
+				flushmessage();
+				return;
+			}
+		}
+		if (m.rbutton) {
+			flushmessage();
+			pulse = false;
+			return;
+		}
 	}
 }
