@@ -16,6 +16,8 @@ int ry[3] = { -1,0,1 };
 
 bool update(int x, int y);	//更新每个cell
 void control();
+void preset();
+
 int main() {
 	int i, j;
 	initgraph(CELL * SIZE, CELL * SIZE, 0);
@@ -81,12 +83,19 @@ void control()
 {
 	ExMessage m;
 	peekmessage(&m, -1, true);
-	if (m.vkcode == VK_ESCAPE) {
-		running = false;
+	if (m.message == WM_KEYDOWN || m.message == WM_RBUTTONDOWN) {
+		if (m.vkcode == VK_ESCAPE) {
+			running = false;
+		}
+		if (m.vkcode == VK_SPACE || m.rbutton) {
+			pulse = true;
+		}
+		if (m.vkcode == 0x53) {	//s键，进入预设设置
+			preset();
+			pulse = true;
+		}
 	}
-	if (m.vkcode == VK_SPACE || m.rbutton) {
-		pulse = true;
-	}
+
 	while (pulse) {
 		getmessage(&m, -1);
 		if (m.lbutton == 1) {
@@ -121,4 +130,13 @@ void control()
 			return;
 		}
 	}
+}
+
+void preset()
+{
+	cleardevice();
+	closegraph();
+	initgraph(1400, 800, 0);
+	loadimage(NULL, L"preset.png", 0, 0, true);
+	
 }
