@@ -2,59 +2,51 @@
 #include<conio.h>
 #include<Windows.h>
 #include<graphics.h>
+#include"resource.h"
 
 #define CELL 10	//单个细胞大小，像素
-#define SIZE 40 //画布大小,每行列细胞数
+#define SIZE 60 //画布大小,每行列细胞数
 
 bool live[SIZE][SIZE] = { 0 };	//每个cell的存活状态
 bool temp[SIZE][SIZE] = { 0 };
 bool running = true;
 bool pulse = false;
-int  mode = 1;	//1-连续繁衍，enter；2-代际繁衍，space
 int rx[3] = { -1,0,1 };	//用于遍历周围九宫格
 int ry[3] = { -1,0,1 };
+int sleeptime = 10;
 
-bool update(int x, int y);	//更新每个cell
+void Update();	//更新
+bool update(int x, int y);	//判定cell存活
+void fillcell();	//更新cell
+void start();
+void map();
 void control();
 void preset();
 
 int main() {
-	int i, j;
-	initgraph(CELL * SIZE, CELL * SIZE, 0);
-	setbkcolor(LIGHTGRAY);
-	setlinecolor(BLACK);
-	setfillcolor(WHITE);
-	cleardevice();
-	for (i = 0; i < SIZE; i++) {
-		line(0, i * CELL, SIZE * CELL, i * CELL);
-		line(i * CELL, 0, i * CELL, SIZE * CELL);
-	}
-
+	start();
 	while (running) {
-		Sleep(10);	//控制每代刷新间隔
-		for (i = 0; i < SIZE; i++) {
-			for (j = 0; j < SIZE; j++) {
-				if (live[i][j]) {
-					fillrectangle(i * CELL, j * CELL, (i + 1) * CELL, (j + 1) * CELL);
-				}
-				else {
-					clearrectangle(i * CELL + 1, j * CELL + 1, (i + 1) * CELL - 1, (j + 1) * CELL - 1);
-				}
-			}
-		}
+		Sleep(sleeptime);	//控制每代刷新间隔
+		fillcell();
 		control();
-		for (i = 0; i < SIZE; i++) {
-			for (j = 0; j < SIZE; j++) {
-				temp[i][j] = update(i, j);
-			}
-		}
-		for (i = 0; i < SIZE; i++) {
-			for (j = 0; j < SIZE; j++) {
-				live[i][j] = temp[i][j];
-			}
-		}
+		Update();
 	}
 	return 0;
+}
+
+void Update()
+{
+	int i, j;
+	for (i = 0; i < SIZE; i++) {
+		for (j = 0; j < SIZE; j++) {
+			temp[i][j] = update(i, j);
+		}
+	}
+	for (i = 0; i < SIZE; i++) {
+		for (j = 0; j < SIZE; j++) {
+			live[i][j] = temp[i][j];
+		}
+	}
 }
 
 bool update(int x, int y)
@@ -79,6 +71,60 @@ bool update(int x, int y)
 	}
 }
 
+void fillcell()
+{
+	int i, j;
+	for (i = 0; i < SIZE; i++) {
+		for (j = 0; j < SIZE; j++) {
+			if (live[i][j]) {
+				fillrectangle(i * CELL, j * CELL, (i + 1) * CELL, (j + 1) * CELL);
+			}
+			else {
+				clearrectangle(i * CELL + 1, j * CELL + 1, (i + 1) * CELL - 1, (j + 1) * CELL - 1);
+			}
+		}
+	}
+}
+
+void start()
+{
+	initgraph(1400, 800, 0);
+	loadimage(NULL, L"PNG", MAKEINTRESOURCE(IDB_PNG2));
+	ExMessage m;
+	while (1) {
+		flushmessage();
+		getmessage(&m, -1);
+		if (m.message == WM_LBUTTONUP) {
+			if (m.x > 1078 && m.x < 1327) {
+				if (m.y > 415 && m.y < 499) {	//playground
+					map();
+					return;
+				}
+				if (m.y > 544 && m.y < 627) {	//presets
+					preset();
+				}
+				if (m.y > 671 && m.y < 754) {	//options
+
+				}
+			}
+		}
+	}
+}
+
+void map()
+{
+	int i, j;
+	initgraph(CELL * SIZE, CELL * SIZE, 0);
+	setbkcolor(LIGHTGRAY);
+	setlinecolor(BLACK);
+	setfillcolor(WHITE);
+	cleardevice();
+	for (i = 0; i < SIZE; i++) {
+		line(0, i * CELL, SIZE * CELL, i * CELL);
+		line(i * CELL, 0, i * CELL, SIZE * CELL);
+	}
+}
+
 void control()
 {
 	ExMessage m;
@@ -86,6 +132,7 @@ void control()
 	if (m.message == WM_KEYDOWN || m.message == WM_RBUTTONDOWN) {
 		if (m.vkcode == VK_ESCAPE) {
 			running = false;
+			return;
 		}
 		if (m.vkcode == VK_SPACE || m.rbutton) {
 			pulse = true;
@@ -93,6 +140,15 @@ void control()
 		if (m.vkcode == 0x53) {	//s键，进入预设设置
 			preset();
 			pulse = true;
+		}
+		if (m.vkcode == VK_UP) {
+			sleeptime += 10;
+		}
+		if (m.vkcode == VK_DOWN) {
+			sleeptime -= 10;
+			if (sleeptime <= 0) {
+				sleeptime = 10;
+			}
 		}
 	}
 
@@ -134,9 +190,8 @@ void control()
 
 void preset()
 {
-	cleardevice();
 	closegraph();
 	initgraph(1400, 800, 0);
-	loadimage(NULL, L"preset.png", 0, 0, true);
+	loadimage(NULL,L"PNG",MAKEINTRESOURCE(IDB_PNG1));
 	
 }
