@@ -113,6 +113,7 @@ void start()
 							live[i][j] = 0;
 						}
 					}
+					sleeptime = 10;
 					map();
 					pass = false;
 					return;
