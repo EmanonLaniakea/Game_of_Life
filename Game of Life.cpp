@@ -5,7 +5,7 @@
 #include"resource.h"
 
 #define CELL 10	//单个细胞大小，像素
-#define SIZE 70 //画布大小,每行列细胞数
+#define SIZE 80 //画布大小,每行列细胞数
 
 bool live[SIZE][SIZE] = { 0 };	//每个cell的存活状态
 bool temp[SIZE][SIZE] = { 0 };
@@ -366,6 +366,28 @@ void preset()
 				}
 				return;
 			}
+			if (m.x > 300 && m.x < 600 && m.y>150 && m.y < 280) {	// lwss
+				pass = false;
+				pulse = true;
+				for (int i = 0; i < SIZE; i++) {
+					for (int j = 0; j < SIZE; j++) {
+						live[i][j] = 0;
+					}
+				}
+				{
+					live[2][2] = true;
+					live[2][4] = true;
+					live[3][5] = true;
+					live[4][5] = true;
+					live[5][5] = true;
+					live[5][2] = true;
+					live[6][3] = true;
+					live[6][4] = true;
+					live[6][5] = true;
+				}
+
+				return;
+			}
 			if (m.x > 300 && m.x < 600 && m.y>400 && m.y < 600) {	//mwss
 				pass = false;
 				pulse = true;
@@ -389,7 +411,7 @@ void preset()
 				}
 				return;
 			}
-			if (m.x > 300 && m.x < 600 && m.y>600 && m.y < 800) {	//hwss
+			if (m.x > 300 && m.x < 600 && m.y>600 && m.y < 800) {	//lwss & mwss & hwss
 				pass = false;
 				pulse = true;
 				for (int i = 0; i < SIZE; i++) {
@@ -401,16 +423,40 @@ void preset()
 					live[2][2] = true;
 					live[2][4] = true;
 					live[3][5] = true;
-					live[4][1] = true;
 					live[4][5] = true;
-					live[5][1] = true;
 					live[5][5] = true;
+					live[5][2] = true;
+					live[6][3] = true;
+					live[6][4] = true;
 					live[6][5] = true;
-					live[7][2] = true;
-					live[7][5] = true;
-					live[8][3] = true;
-					live[8][4] = true;
-					live[8][5] = true;
+				}
+				{
+					live[2][4+8] = true;
+					live[2][6+8] = true;
+					live[3][3+8] = true;
+					live[4][3+8] = true;
+					live[5][3+8] = true;
+					live[6][3+8] = true;
+					live[7][3+8] = true;
+					live[7][4+8] = true;
+					live[7][5+8] = true;
+					live[6][6+8] = true;
+					live[4][7+8] = true;
+				}
+				{
+					live[2][2+20] = true;
+					live[2][4+20] = true;
+					live[3][5+20] = true;
+					live[4][1+20] = true;
+					live[4][5+20] = true;
+					live[5][1+20] = true;
+					live[5][5+20] = true;
+					live[6][5+20] = true;
+					live[7][2+20] = true;
+					live[7][5+20] = true;
+					live[8][3+20] = true;
+					live[8][4+20] = true;
+					live[8][5+20] = true;
 				}
 				return;
 			}
@@ -423,42 +469,42 @@ void preset()
 					}
 				}
 				{
-					live[5 + 1][5 + 1] = true;
-					live[5 + 2][5 + 1] = true;
-					live[5 + 1][5 + 2] = true;
-					live[5 + 2][5 + 2] = true;
-					live[5 + 8][5 + 1] = true;
-					live[5 + 8][5 + 2] = true;
-					live[5 + 9][5 + 1] = true;
-					live[5 + 9][5 + 2] = true;
-					live[5 + 5][5 + 4] = true;
-					live[5 + 5][5 + 5] = true;
-					live[5 + 6][5 + 4] = true;
-					live[5 + 6][5 + 5] = true;
-					live[5 + 22][5 + 11] = true;
-					live[5 + 22][5 + 12] = true;
-					live[5 + 22][5 + 13] = true;
-					live[5 + 22][5 + 18] = true;
-					live[5 + 21][5 + 18] = true;
-					live[5 + 21][5 + 19] = true;
-					live[5 + 22][5 + 20] = true;
-					live[5 + 23][5 + 20] = true;
-					live[5 + 24][5 + 20] = true;
-					live[5 + 24][5 + 21] = true;
-					live[5 + 23][5 + 10] = true;
-					live[5 + 23][5 + 13] = true;
-					live[5 + 24][5 + 13] = true;
-					live[5 + 24][5 + 10] = true;
-					live[5 + 26][5 + 10] = true;
-					live[5 + 27][5 + 10] = true;
-					live[5 + 28][5 + 11] = true;
-					live[5 + 29][5 + 12] = true;
-					live[5 + 28][5 + 13] = true;
-					live[5 + 27][5 + 14] = true;
-					live[5 + 32][5 + 12] = true;
-					live[5 + 32][5 + 13] = true;
-					live[5 + 33][5 + 12] = true;
-					live[5 + 33][5 + 13] = true;
+					live[20 + 1][20 + 1] = true;
+					live[20 + 2][20 + 1] = true;
+					live[20 + 1][20 + 2] = true;
+					live[20 + 2][20 + 2] = true;
+					live[20 + 8][20 + 1] = true;
+					live[20 + 8][20 + 2] = true;
+					live[20 + 9][20 + 1] = true;
+					live[20 + 9][20 + 2] = true;
+					live[20 + 5][20 + 4] = true;
+					live[20 + 5][20 + 5] = true;
+					live[20 + 6][20 + 4] = true;
+					live[20 + 6][20 + 5] = true;
+					live[20 + 22][20 + 11] = true;
+					live[20 + 22][20 + 12] = true;
+					live[20 + 22][20 + 13] = true;
+					live[20 + 22][20 + 18] = true;
+					live[20 + 21][20 + 18] = true;
+					live[20 + 21][20 + 19] = true;
+					live[20 + 22][20 + 20] = true;
+					live[20 + 23][20 + 20] = true;
+					live[20 + 24][20 + 20] = true;
+					live[20 + 24][20 + 21] = true;
+					live[20 + 23][20 + 10] = true;
+					live[20 + 23][20 + 13] = true;
+					live[20 + 24][20 + 13] = true;
+					live[20 + 24][20 + 10] = true;
+					live[20 + 26][20 + 10] = true;
+					live[20 + 27][20 + 10] = true;
+					live[20 + 28][20 + 11] = true;
+					live[20 + 29][20 + 12] = true;
+					live[20 + 28][20 + 13] = true;
+					live[20 + 27][20 + 14] = true;
+					live[20 + 32][20 + 12] = true;
+					live[20 + 32][20 + 13] = true;
+					live[20 + 33][20 + 12] = true;
+					live[20 + 33][20 + 13] = true;
 				}
 				return;
 			}
