@@ -128,8 +128,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Game of Life.cpp" />
+    <ClCompile Include="update.cpp" />
+    <ClCompile Include="draw.cpp" />
+    <ClCompile Include="menu.cpp" />
+    <ClCompile Include="control.cpp" />
+    <ClCompile Include="presets.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="head.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
