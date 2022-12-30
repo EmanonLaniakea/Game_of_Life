@@ -142,8 +142,12 @@
     <ResourceCompile Include="Game of Life.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="options.png" />
     <Image Include="preset.png" />
+    <Image Include="rules.png" />
+    <Image Include="start_new.png" />
     <Image Include="strart.png" />
+    <Image Include="try_yourself.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

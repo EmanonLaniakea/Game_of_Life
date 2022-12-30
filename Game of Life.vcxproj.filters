@@ -54,5 +54,17 @@
     <Image Include="strart.png">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="start_new.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="options.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="rules.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="try_yourself.png">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -62,7 +62,7 @@ void preset()
 					live[36 + 3][4] = true;
 				}
 				return;
-			}
+			}else
 			if (m.x > 0 && m.x < 300 && m.y>400 && m.y < 600) {	// pulsar
 				in_menu = false;
 				pulse = true;
@@ -122,7 +122,7 @@ void preset()
 					live[12][14] = true;
 				}
 				return;
-			}
+			}else
 			if (m.x > 0 && m.x < 300 && m.y>600 && m.y < 800) {	//penta
 				in_menu = false;
 				pulse = true;
@@ -146,7 +146,7 @@ void preset()
 					live[4 + 3][3 + 10] = true;
 				}
 				return;
-			}
+			}else
 			if (m.x > 300 && m.x < 600 && m.y>150 && m.y < 280) {	// lwss
 				in_menu = false;
 				pulse = true;
@@ -168,7 +168,7 @@ void preset()
 				}
 
 				return;
-			}
+			}else
 			if (m.x > 300 && m.x < 600 && m.y>400 && m.y < 600) {	//mwss
 				in_menu = false;
 				pulse = true;
@@ -191,7 +191,7 @@ void preset()
 					live[4][7] = true;
 				}
 				return;
-			}
+			}else
 			if (m.x > 300 && m.x < 600 && m.y>600 && m.y < 800) {	//lwss & mwss & hwss
 				in_menu = false;
 				pulse = true;
@@ -240,7 +240,7 @@ void preset()
 					live[8][5 + 20] = true;
 				}
 				return;
-			}
+			}else
 			if (m.x > 600 && m.x < 1400 && m.y>275 && m.y < 800) {	//simkin
 				in_menu = false;
 				pulse = true;
@@ -287,6 +287,20 @@ void preset()
 					live[20 + 33][20 + 12] = true;
 					live[20 + 33][20 + 13] = true;
 				}
+				return;
+			}
+			else {
+				in_menu = false;
+				pulse = true;
+				for (int i = 0; i < SIZE; i++) {
+					for (int j = 0; j < SIZE; j++) {
+						live[i][j] = 0;
+					}
+				}
+				closegraph();
+				initgraph(1400, 800, 0);
+				loadimage(NULL, L"PNG", MAKEINTRESOURCE(IDB_PNG6));
+				Sleep(5000);
 				return;
 			}
 		}
