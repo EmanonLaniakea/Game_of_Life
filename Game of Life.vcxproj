@@ -142,6 +142,7 @@
     <ResourceCompile Include="Game of Life.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="C:\Users\iamqi\Downloads\download.ico" />
     <Image Include="options.png" />
     <Image Include="preset.png" />
     <Image Include="rules.png" />

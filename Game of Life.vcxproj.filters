@@ -66,5 +66,8 @@
     <Image Include="try_yourself.png">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="C:\Users\iamqi\Downloads\download.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>
